@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+  <!-- <script src="https://raw.githack.com/AR-js-org/AR.js/master/three.js/build/ar.js"></script> -->
+  <!-- we import arjs version without NFT but with marker + location based support -->
+  <!-- <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script> -->
+  <script src="scripts/aframe-ar.js"></script>
+  <script src="https://rawgit.com/mayognaise/aframe-mouse-cursor-component/master/dist/aframe-mouse-cursor-component.min.js"></script>
+  <script>
+    AFRAME.registerComponent('cursor-listener', {
+      init: function () {
+        var that = this;
+        this.el.addEventListener('mouseenter', function (evt) {
+          var data = '';
+          switch (that.el.getAttribute("data-id")) {
+            case "phone":
+              data = 'Phone: 080 4174 3697';
+              break;
+            case "location":
+              data = 'City: Bengaluru';
+              break;
+            case "website":
+              data = 'Website: https://codecrafttech.com';
+              break;
+            case "email":
+              data = 'email: hr@codecraft.co.in';
+              break;
+            default:
+              break;
+          }
+          // document.querySelector('#tooltip_el').setAttribute("value", data);
+          document.querySelector('#tooltip_container').setAttribute("visible", "true");
+        });
+        this.el.addEventListener('mouseleave', function (evt) {
+          document.querySelector('#tooltip_container').setAttribute("visible", "false");
+        });
+      }
+    });
+  </script>
+
+
+
+  <body style="margin : 0px; overflow: hidden;">
+    <a-scene
+      renderer="logarithmicDepthBuffer: true; precision: high;"
+      embedded
+      arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
+      scene-listener
+    >
+      <a-assets>
+        <img id="my-image" src="assets/cover.jpg">
+        <img id="icon-phone" src="assets/phone.png?t=1">
+        <img id="icon-location" src="assets/place.png?t=1">
+        <img id="icon-website" src="assets/global.png?t=1">
+        <img id="icon-email" src="assets/mail.png?t=1">
+        <img id="tooltip" src="assets/tooltip.png?t=1">
+      </a-assets>
+      <a-marker preset="hiro">
+        <a-image src="#my-image" rotation="-90 0 0" position="0 0 0" width="2.7" height="1"></a-image>
+        <a-image src="#icon-phone" data-id="phone" rotation="-90 0 0" position="-1 0 0.9" width="0.35" height="0.35" cursor-listener></a-image>
+        <a-image src="#icon-location" data-id="location" rotation="-90 0 0" position="-0.4 0 0.9" width="0.35" height="0.35" cursor-listener></a-image>
+        <a-image src="#icon-website" data-id="website" rotation="-90 0 0" position="0.2 0 0.9" width="0.35" height="0.35" cursor-listener></a-image>
+        <a-image src="#icon-email" data-id="email" rotation="-90 0 0" position="0.8 0 0.9" width="0.35" height="0.35" cursor-listener></a-image>
+        <a-entity id="tooltip_container" position="0 0 1.3" font="kelsonsans" rotation="-90 0 0" visible="false">
+          <a-plane color="FFF" height="0.2" width="2" position="0 0 0"></a-plane>
+        </a-entity>
+
+        <!-- <a-entity
+          rotation="-90 0 0"
+          geometry="primitive: plane; height: auto; width: auto"
+          material="color: white"
+          text="width: 2; value: This text will be 4 units wide."
+          position="0 0 1.3"
+        >
+        </a-entity> -->
+
+        <!-- <a-entity
+          position="0 0 1.3"
+          rotation="-90 0 0"
+          geometry="primitive: plane; width: 2; height: auto"
+          material="color: #FFF"
+          text="color: black; align: center; font: https://cdn.aframe.io/fonts/DejaVu-sdf.fnt;
+                value: a-plane align:center (anchor:align) DejaVu width 8 1234567890123456789012345678901234567890"
+        >
+        </a-entity> -->
+
+        <!-- <a-entity
+          position="0 0 1.3"
+          rotation="-90 0 0"
+          width="2"
+          height="0.1"
+          material="color: white"
+        >
+          <a-text value="email: hr@codecraft.co.in" color="black" width="2" position="0 0 0.2" font="kelsonsans"></a-text>
+        </a-entity> -->
+      </a-marker>
+      <a-entity camera>
+        <a-entity
+          cursor="fuse: true; fuseTimeout: 500"
+          position="0 0 -1"
+          geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.025;" material="color: yellow; shader: flat;"
+        >
+        </a-entity>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>
